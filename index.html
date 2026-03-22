@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eliot AI — Automate Your Customer Support, 24/7</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='2' y='4' width='44' height='40' rx='10' fill='%231B2B6B'/><polygon points='8,42 4,56 22,42' fill='%231B2B6B'/><rect x='12' y='14' width='20' height='3' rx='1.5' fill='white'/><rect x='12' y='22' width='15' height='3' rx='1.5' fill='white'/><rect x='12' y='30' width='20' height='3' rx='1.5' fill='white'/><rect x='12' y='14' width='3' height='19' rx='1.5' fill='white'/><circle cx='40' cy='10' r='7' fill='%233A5BC7'/><circle cx='40' cy='10' r='3' fill='white'/></svg>"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Serif+Display:ital@0;1&family=Barlow+Condensed:wght@700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary': '#1B2B6B',
+            'accent': '#3A5BC7',
+            'white-main': '#ffffff',
+            'gray-section': '#f0f2f5',
+            'card-blue': '#f0f4ff',
+            'body-text': '#333333',
+            'sub-text': '#555555',
+          },
+          fontFamily: {
+            sans: ['"DM Sans"', 'sans-serif'],
+            serif: ['"DM Serif Display"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: #333333;
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Hero ── */
+    .hero-bg {
+      background: #1B2B6B;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(58,91,199,0.35) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 10% 80%, rgba(58,91,199,0.18) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    /* ── Animated badge ── */
+    @keyframes pulse-ring {
+      0%   { box-shadow: 0 0 0 0 rgba(58,91,199,0.5); }
+      70%  { box-shadow: 0 0 0 8px rgba(58,91,199,0); }
+      100% { box-shadow: 0 0 0 0 rgba(58,91,199,0); }
+    }
+    .pulse-dot { animation: pulse-ring 2s infinite; }
+
+    /* ── Stat cards ── */
+    .stat-bar {
+      background: linear-gradient(135deg, #1B2B6B 0%, #2c4099 100%);
+    }
+
+    /* ── Feature cards ── */
+    .feature-card {
+      background: #ffffff;
+      border: 1px solid #e5eaf5;
+      border-radius: 16px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(27,43,107,0.12);
+      border-color: #c5d0f0;
+    }
+    .feature-icon {
+      background: #f0f4ff;
+      border-radius: 14px;
+      width: 56px; height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.25s;
+    }
+    .feature-card:hover .feature-icon {
+      background: #dde6ff;
+    }
+
+    /* ── Steps ── */
+    .step-connector {
+      position: absolute;
+      top: 28px;
+      left: calc(50% + 60px);
+      right: calc(-50% + 60px);
+      height: 2px;
+      background: linear-gradient(90deg, #3A5BC7, #c5d0f0);
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: #ffffff;
+      color: #1B2B6B;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 14px 28px;
+      transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+      white-space: nowrap;
+    }
+    .btn-primary:hover {
+      background: #f0f4ff;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(255,255,255,0.2);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #ffffff;
+      border: 2px solid rgba(255,255,255,0.45);
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 13px 28px;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 8px;
+      white-space: nowrap;
+    }
+    .btn-outline:hover {
+      border-color: #ffffff;
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-cta {
+      background: #1B2B6B;
+      color: #ffffff;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 14px 32px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-cta:hover {
+      background: #3A5BC7;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 28px rgba(58,91,199,0.3);
+    }
+
+    .btn-nav {
+      background: #1B2B6B;
+      color: #ffffff;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 10px 22px;
+      font-size: 14px;
+      transition: background 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+    .btn-nav:hover {
+      background: #3A5BC7;
+      box-shadow: 0 4px 16px rgba(58,91,199,0.3);
+    }
+
+    /* ── Nav ── */
+    .nav-link {
+      color: #333333;
+      font-weight: 500;
+      font-size: 15px;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 2px;
+      background: #3A5BC7;
+      transform: scaleX(0);
+      transition: transform 0.2s;
+    }
+    .nav-link:hover { color: #3A5BC7; }
+    .nav-link:hover::after { transform: scaleX(1); }
+
+    /* ── Pricing ── */
+    .pricing-card {
+      border: 2px solid #e5eaf5;
+      border-radius: 20px;
+      background: #ffffff;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .pricing-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(27,43,107,0.10);
+      border-color: #b8c8f0;
+    }
+    .pricing-card.popular {
+      border-color: #3A5BC7;
+      box-shadow: 0 8px 40px rgba(58,91,199,0.18);
+    }
+
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Mobile menu ── */
+    #mobile-menu {
+      display: none;
+    }
+    #mobile-menu.open {
+      display: block;
+    }
+
+    /* ── Testimonial ── */
+    .testimonial-card {
+      background: #ffffff;
+      border: 1px solid #e5eaf5;
+      border-radius: 16px;
+      transition: box-shadow 0.25s;
+    }
+    .testimonial-card:hover {
+      box-shadow: 0 12px 36px rgba(27,43,107,0.10);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: #1B2B6B;
+    }
+
+    /* ── Badge pill ── */
+    .badge {
+      background: rgba(58,91,199,0.12);
+      color: #3A5BC7;
+      border: 1px solid rgba(58,91,199,0.25);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-badge {
+      background: rgba(255,255,255,0.12);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    /* ── Checkmark list ── */
+    .check-item {
+      display: flex; align-items: flex-start; gap: 10px; color: #555555; font-size: 15px;
+    }
+
+    /* ── Smooth number counter ── */
+    .counter { font-variant-numeric: tabular-nums; }
+
+    /* ── Stagger animations ── */
+    .stagger-1 { transition-delay: 0.05s; }
+    .stagger-2 { transition-delay: 0.12s; }
+    .stagger-3 { transition-delay: 0.19s; }
+    .stagger-4 { transition-delay: 0.26s; }
+    .stagger-5 { transition-delay: 0.33s; }
+    .stagger-6 { transition-delay: 0.40s; }
+
+    @media (max-width: 768px) {
+      .step-connector { display: none; }
+    }
+
+    /* ── Integration logos ── */
+    .integration-tile {
+      border: 1px solid #e5eaf5;
+      border-radius: 14px;
+      background: #fff;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px;
+      padding: 20px 16px;
+      cursor: default;
+    }
+    .integration-tile:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(27,43,107,0.10);
+      border-color: #c5d0f0;
+    }
+    .integration-tile.custom-tile {
+      border: 2px dashed #c5d0f0;
+      background: #f8faff;
+    }
+    .integration-tile.custom-tile:hover { border-color: #3A5BC7; }
+
+    /* ── ROI Calculator ── */
+    .roi-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 3px; background: #e5eaf5; outline: none; }
+    .roi-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #3A5BC7; cursor: pointer; box-shadow: 0 2px 8px rgba(58,91,199,0.3); }
+    .roi-slider::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: #3A5BC7; cursor: pointer; border: none; }
+    .roi-result-card { background: #fff; border: 1px solid #e5eaf5; border-radius: 16px; padding: 20px; text-align: center; }
+    .roi-result-card.highlight { background: #1B2B6B; border-color: #1B2B6B; }
+
+    /* ── Comparison table ── */
+    .comp-check { color: #22c55e; font-size: 18px; font-weight: 700; }
+    .comp-cross { color: #ef4444; font-size: 18px; }
+    .comp-partial { color: #f59e0b; font-size: 16px; }
+
+    /* ── FAQ Accordion ── */
+    .faq-item { border-bottom: 1px solid #e5eaf5; }
+    .faq-btn { width: 100%; text-align: left; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 20px 0; gap: 16px; }
+    .faq-btn:hover .faq-q { color: #3A5BC7; }
+    .faq-q { font-size: 16px; font-weight: 600; color: #1B2B6B; transition: color 0.2s; }
+    .faq-chevron { flex-shrink: 0; transition: transform 0.3s ease; color: #3A5BC7; }
+    .faq-chevron.open { transform: rotate(180deg); }
+    .faq-body { overflow: hidden; max-height: 0; transition: max-height 0.35s ease; }
+    .faq-body p { padding-bottom: 20px; color: #555; font-size: 15px; line-height: 1.7; }
+
+    /* ── Lead form ── */
+    .form-input {
+      width: 100%; padding: 12px 16px; border: 1.5px solid #e5eaf5; border-radius: 10px;
+      font-size: 15px; color: #333; background: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .form-input:focus { border-color: #3A5BC7; box-shadow: 0 0 0 3px rgba(58,91,199,0.1); }
+    .form-input::placeholder { color: #aaa; }
+
+    /* ── Floating WA button ── */
+    .wa-float {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      width: 58px; height: 58px; border-radius: 50%;
+      background: #25D366;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+    .wa-float:hover { transform: scale(1.10); box-shadow: 0 10px 32px rgba(37,211,102,0.55); }
+    .wa-float-tooltip {
+      position: absolute; right: 68px; top: 50%; transform: translateY(-50%);
+      background: #1B2B6B; color: #fff; font-size: 13px; font-weight: 600;
+      padding: 6px 12px; border-radius: 8px; white-space: nowrap; pointer-events: none;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .wa-float:hover .wa-float-tooltip { opacity: 1; }
+    @keyframes wa-bounce { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-10px)} 70%{transform:translateY(-5px)} }
+    .wa-float.bouncing { animation: wa-bounce 0.7s ease 3; }
+
+
+    /* ── TOS View ── */
+    #tos-view { display:flex; flex-direction:column; position:fixed; inset:0; z-index:9000; background:#080e23; overflow:hidden; }
+    #tos-topnav { flex-shrink:0; display:flex; align-items:center; justify-content:space-between; padding:14px 40px; background:rgba(8,14,35,0.98); backdrop-filter:blur(24px); border-bottom:1px solid rgba(96,179,255,0.13); z-index:10; }
+    #tos-close-btn { display:inline-flex; align-items:center; gap:7px; font-family:'Space Mono',monospace; font-size:0.7rem; color:#60B3FF; background:none; border:1px solid rgba(96,179,255,0.25); border-radius:6px; padding:6px 14px; cursor:pointer; transition:all .2s; letter-spacing:.05em; }
+    #tos-close-btn:hover { background:rgba(96,179,255,0.08); border-color:rgba(96,179,255,0.55); color:#9dd3ff; }
+    #tos-brand { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:1.1rem; letter-spacing:.14em; color:#60B3FF; text-shadow:0 0 16px #60B3FF55; pointer-events:none; }
+    #tos-body { display:flex; flex:1; overflow:hidden; }
+    #tos-toc { width:220px; flex-shrink:0; background:rgba(8,14,35,0.98); border-right:1px solid rgba(96,179,255,0.1); overflow-y:auto; padding:24px 14px 40px 20px; scrollbar-width:thin; scrollbar-color:rgba(96,179,255,0.2) transparent; }
+    .tm-toc-label { font-family:'Space Mono',monospace; font-size:.58rem; color:#3A5BC7; letter-spacing:.18em; text-transform:uppercase; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid rgba(96,179,255,0.13); }
+    .tm-toc-section { font-family:'Space Mono',monospace; font-size:.58rem; color:#3A5BC7; letter-spacing:.1em; margin-top:10px; margin-bottom:2px; padding:4px 8px; pointer-events:none; }
+    .tm-toc-item { display:block; font-family:'Space Mono',monospace; font-size:.62rem; color:#7a9abd; text-decoration:none; padding:5px 8px; border-radius:5px; transition:all .2s; letter-spacing:.03em; line-height:1.4; border-left:2px solid transparent; }
+    .tm-toc-item:hover { color:#60B3FF; background:rgba(96,179,255,0.06); border-left-color:#3A5BC7; }
+    .tm-toc-item.active { color:#60B3FF; background:rgba(96,179,255,0.08); border-left-color:#60B3FF; }
+    #tos-modal-content { flex:1; overflow-y:auto; padding:48px 56px 80px; scrollbar-width:thin; scrollbar-color:rgba(96,179,255,0.2) transparent; }
+    #tos-modal-content .tm-cover { text-align:center; padding:32px 0 36px; border-bottom:1px solid rgba(96,179,255,0.13); margin-bottom:44px; }
+    #tos-modal-content .tm-cover .tm-label { font-family:'Space Mono',monospace; font-size:.63rem; letter-spacing:.2em; text-transform:uppercase; color:#3A5BC7; margin-bottom:14px; }
+    #tos-modal-content .tm-cover h1 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:4.2rem; letter-spacing:.06em; color:#60B3FF; text-shadow:0 0 40px #60B3FF55; line-height:1; margin-bottom:8px; }
+    #tos-modal-content .tm-cover .tm-sub { font-family:'DM Sans',sans-serif; font-size:.98rem; color:#7a9abd; margin-bottom:4px; font-weight:300; }
+    #tos-modal-content .tm-cover .tm-meta { font-family:'DM Sans',sans-serif; font-size:.84rem; color:#7a9abd; line-height:1.7; margin-bottom:28px; }
+    #tos-modal-content .tm-cover .tm-meta strong { color:#e8edf5; }
+    #tos-modal-content .tm-doc-title { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:1.7rem; color:#60B3FF; letter-spacing:.08em; text-transform:uppercase; margin:44px 0 4px; text-shadow:0 0 20px #60B3FF33; }
+    #tos-modal-content .tm-last-updated { font-family:'Space Mono',monospace; font-size:.6rem; color:#7a9abd; letter-spacing:.1em; margin-bottom:14px; }
+    #tos-modal-content p { font-family:'DM Sans',sans-serif; font-size:.95rem; color:#7a9abd; line-height:1.78; margin-bottom:16px; }
+    #tos-modal-content .tm-sh { display:flex; align-items:center; gap:13px; background:rgba(15,25,60,0.72); border:1px solid rgba(96,179,255,0.13); border-left:3px solid #3A5BC7; border-radius:8px; padding:12px 16px; margin:26px 0 13px; }
+    #tos-modal-content .tm-sh .n { font-family:'Space Mono',monospace; font-size:.6rem; color:#3A5BC7; background:rgba(96,179,255,.08); border:1px solid rgba(96,179,255,.2); border-radius:4px; padding:3px 7px; letter-spacing:.06em; white-space:nowrap; }
+    #tos-modal-content .tm-sh .t { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:1rem; color:#e8edf5; letter-spacing:.06em; text-transform:uppercase; }
+    #tos-modal-content .tm-list { list-style:none; padding:0; margin-bottom:16px; }
+    #tos-modal-content .tm-list li { font-family:'DM Sans',sans-serif; font-size:.93rem; color:#7a9abd; line-height:1.72; padding:9px 0 9px 20px; border-bottom:1px solid rgba(96,179,255,.06); position:relative; }
+    #tos-modal-content .tm-list li::before { content:'›'; position:absolute; left:0; color:#3A5BC7; font-weight:700; }
+    #tos-modal-content .tm-list li strong { color:#e8edf5; }
+    #tos-modal-content .tm-def { margin-bottom:16px; }
+    #tos-modal-content .tm-def-item { display:grid; grid-template-columns:150px 1fr; gap:13px; padding:10px 0; border-bottom:1px solid rgba(96,179,255,.07); }
+    #tos-modal-content .tm-def-term { font-family:'Space Mono',monospace; font-size:.68rem; color:#3A5BC7; letter-spacing:.05em; padding-top:2px; }
+    #tos-modal-content .tm-def-desc { font-family:'DM Sans',sans-serif; font-size:.92rem; color:#7a9abd; line-height:1.62; }
+    #tos-modal-content .tm-table { width:100%; border-collapse:collapse; margin-bottom:16px; }
+    #tos-modal-content .tm-table th { font-family:'Space Mono',monospace; font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:#3A5BC7; background:rgba(96,179,255,.06); border:1px solid rgba(96,179,255,.13); padding:9px 12px; text-align:left; }
+    #tos-modal-content .tm-table td { font-family:'DM Sans',sans-serif; color:#7a9abd; font-size:.88rem; border:1px solid rgba(96,179,255,.07); padding:9px 12px; line-height:1.52; vertical-align:top; }
+    #tos-modal-content .tm-hi { background:rgba(96,179,255,.05); border:1px solid rgba(96,179,255,.18); border-left:3px solid #3A5BC7; border-radius:8px; padding:14px 17px; margin-bottom:16px; font-family:'DM Sans',sans-serif; font-size:.9rem; color:#7a9abd; line-height:1.65; }
+    #tos-modal-content .tm-hi strong { color:#e8edf5; }
+    #tos-modal-content hr.tm-break { border:none; border-top:1px solid rgba(96,179,255,.13); margin:50px 0; }
+    #tos-modal-content .tm-footer { margin-top:50px; padding-top:20px; border-top:1px solid rgba(96,179,255,.13); font-family:'Space Mono',monospace; font-size:.58rem; color:#7a9abd; letter-spacing:.08em; text-align:center; line-height:1.8; }
+    @media(max-width:900px) { #tos-toc { display:none; } }
+    @media(max-width:640px) { #tos-modal-content { padding:30px 18px 60px; } #tos-topnav { padding:12px 18px; } #tos-modal-content .tm-def-item { grid-template-columns:1fr; gap:3px; } }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════ NAVBAR ═══════════════════════ -->
+<header class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm" style="box-shadow:0 1px 18px rgba(27,43,107,0.07)">
+  <div class="max-w-6xl mx-auto px-5 py-3 flex items-center justify-between gap-4">
+
+    <!-- Logo -->
+    <a href="#" class="flex-shrink-0">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="140" height="35" aria-label="Eliot Tech">
+        <defs>
+          <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1B2D5E"/>
+            <stop offset="100%" style="stop-color:#2B4AAF"/>
+          </linearGradient>
+          <linearGradient id="dotGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#4A7CFF"/>
+            <stop offset="100%" style="stop-color:#6B9FFF"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="4" width="56" height="52" rx="12" fill="url(#bubbleGrad)"/>
+        <polygon points="10,54 6,70 26,54" fill="#1B2D5E"/>
+        <rect x="16" y="18" width="26" height="4" rx="2" fill="white"/>
+        <rect x="16" y="28" width="20" height="4" rx="2" fill="white"/>
+        <rect x="16" y="38" width="26" height="4" rx="2" fill="white"/>
+        <rect x="16" y="18" width="4" height="24" rx="2" fill="white"/>
+        <circle cx="50" cy="10" r="7" fill="url(#dotGrad)"/>
+        <circle cx="50" cy="10" r="3.5" fill="white"/>
+        <text x="76" y="42" font-family="'DM Sans', 'Segoe UI', Arial, sans-serif" font-size="34" font-weight="700" fill="#1B2D5E" letter-spacing="-1">Eliot</text>
+        <text x="78" y="60" font-family="'DM Sans', 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="400" fill="#4A7CFF" letter-spacing="5">TECH</text>
+        <rect x="74" y="46" width="160" height="1.5" rx="1" fill="#E8EDF5"/>
+      </svg>
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-8">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#how-it-works" class="nav-link">How It Works</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+    </nav>
+
+    <!-- CTA + Hamburger -->
+    <div class="flex items-center gap-3">
+      <a href="#pricing" class="btn-nav hidden sm:inline-block">View Pricing Plans</a>
+      <!-- Hamburger -->
+      <button id="menu-btn" aria-label="Toggle menu" class="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-gray-100 transition">
+        <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300" id="hb1"></span>
+        <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300" id="hb2"></span>
+        <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300" id="hb3"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 px-5 py-4">
+    <nav class="flex flex-col gap-4">
+      <a href="#features" class="nav-link text-base">Features</a>
+      <a href="#how-it-works" class="nav-link text-base">How It Works</a>
+      <a href="#about" class="nav-link text-base">About</a>
+      <a href="#pricing" class="nav-link text-base">Pricing</a>
+      <a href="#faq" class="nav-link text-base">FAQ</a>
+      <a href="#pricing" class="btn-cta justify-center text-center text-sm mt-2">View Pricing Plans →</a>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="hero-bg relative">
+  <div class="hero-grid"></div>
+  <div class="relative z-10 max-w-5xl mx-auto px-5 py-24 md:py-32 text-center">
+
+    <!-- Badge -->
+    <div class="flex justify-center mb-6">
+      <span class="badge hero-badge pulse-dot">
+        <span class="w-2 h-2 rounded-full bg-green-400 flex-shrink-0"></span>
+        AI-Powered Customer Support · Now Available
+      </span>
+    </div>
+
+    <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal text-white leading-tight mb-6" style="letter-spacing:-0.02em">
+      Automate Your Customer<br class="hidden sm:block"/>
+      <em>Support</em> with <span style="color:#7da4f5">Eliot AI</span>
+    </h1>
+
+    <p class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto mb-10 leading-relaxed" style="color:rgba(255,255,255,0.78)">
+      Eliot handles your customer questions 24/7 — instantly, accurately, and without burnout. Built on RAG technology, it learns from your documents and your team, so every answer gets smarter over time.
+    </p>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+      <a href="#pricing" class="btn-primary text-base">
+        Mulai Sekarang
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#how-it-works" class="btn-outline text-base">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+        See How It Works
+      </a>
+    </div>
+
+    <!-- Trust signals -->
+    <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-2 text-sm" style="color:rgba(255,255,255,0.55)">
+      <span class="flex items-center gap-2">
+        <svg width="15" height="15" fill="none" stroke="#4ade80" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Setup sekali, bayar maintenance bulanan
+      </span>
+      <span class="flex items-center gap-2">
+        <svg width="15" height="15" fill="none" stroke="#4ade80" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Set up in under 10 minutes
+      </span>
+      <span class="flex items-center gap-2">
+        <svg width="15" height="15" fill="none" stroke="#4ade80" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        99% Uptime SLA
+      </span>
+    </div>
+
+    <!-- Mock UI preview -->
+    <div class="mt-16 relative mx-auto max-w-3xl" style="filter:drop-shadow(0 32px 64px rgba(0,0,0,0.35))">
+      <div class="rounded-2xl overflow-hidden border border-white border-opacity-10" style="background:#1a2560">
+        <!-- Window chrome -->
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-white border-opacity-10" style="background:rgba(255,255,255,0.05)">
+          <span class="w-3 h-3 rounded-full bg-red-400"></span>
+          <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+          <span class="w-3 h-3 rounded-full bg-green-400"></span>
+          <span class="flex-1 text-center text-xs" style="color:rgba(255,255,255,0.35)">Eliot AI · Support Dashboard</span>
+        </div>
+        <!-- Chat area -->
+        <div class="p-6 space-y-4">
+          <!-- user message -->
+          <div class="flex justify-end">
+            <div class="rounded-2xl rounded-tr-sm px-4 py-2.5 text-sm text-white max-w-xs text-right" style="background:#3A5BC7">
+              How do I reset my password?
+            </div>
+          </div>
+          <!-- Eliot reply -->
+          <div class="flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center" style="background:linear-gradient(135deg,#1B2B6B,#3A5BC7)">
+              <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.93V15a1 1 0 0 0-2 0v1.93A8 8 0 0 1 4.07 13H6a1 1 0 0 0 0-2H4.07A8 8 0 0 1 11 4.07V6a1 1 0 0 0 2 0V4.07A8 8 0 0 1 19.93 11H18a1 1 0 0 0 0 2h1.93A8 8 0 0 1 13 16.93z"/></svg>
+            </div>
+            <div class="rounded-2xl rounded-tl-sm px-4 py-2.5 text-sm max-w-xs" style="background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.85)">
+              Sure! Go to <strong style="color:#7da4f5">Settings → Security → Reset Password</strong>. A link will be sent to your registered email within 30 seconds. ✅
+            </div>
+          </div>
+          <!-- Status bar -->
+          <div class="flex items-center justify-between pt-2 border-t border-white border-opacity-10 text-xs" style="color:rgba(255,255,255,0.4)">
+            <span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-green-400"></span> Eliot is online</span>
+            <span>Responded in <strong style="color:#7da4f5">0.8s</strong> · Source: Knowledge Base</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ STATS BAR ═══════════════════════ -->
+<section class="stat-bar py-10">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+
+      <div class="reveal stagger-1">
+        <div class="text-4xl font-bold text-white mb-1 counter">99%</div>
+        <div class="text-sm font-medium" style="color:rgba(255,255,255,0.65)">Uptime SLA Target</div>
+      </div>
+
+      <div class="reveal stagger-2">
+        <div class="text-4xl font-bold text-white mb-1 counter">&lt;60s</div>
+        <div class="text-sm font-medium" style="color:rgba(255,255,255,0.65)">Knowledge Update Speed</div>
+      </div>
+
+      <div class="reveal stagger-3">
+        <div class="text-4xl font-bold text-white mb-1 counter">24/7</div>
+        <div class="text-sm font-medium" style="color:rgba(255,255,255,0.65)">Automated Support</div>
+      </div>
+
+      <div class="reveal stagger-4">
+        <div class="text-4xl font-bold text-white mb-1 counter">4+</div>
+        <div class="text-sm font-medium" style="color:rgba(255,255,255,0.65)">Document Types Supported</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ INTEGRATIONS ═══════════════════════ -->
+<section class="py-16 md:py-20 bg-white">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="text-center mb-12 reveal">
+      <span class="badge mb-4">Works With Your Stack</span>
+      <h2 class="font-serif text-3xl md:text-4xl mt-3 mb-3" style="color:#1B2B6B; letter-spacing:-0.02em">
+        Connects to the Tools You Already Use
+      </h2>
+      <p class="text-base max-w-lg mx-auto" style="color:#555">Connect Eliot to the platforms you already use — no migration, no added complexity.</p>
+    </div>
+    <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
+
+      <!-- Telegram -->
+      <div class="integration-tile reveal stagger-1">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="#3A5BC7"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-2.016 9.504c-.148.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.604.295l.213-3.053 5.56-5.023c.242-.213-.054-.332-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.463c.537-.194 1.006.131.878.719z"/></svg>
+        <span class="text-xs font-semibold" style="color:#555">Telegram</span>
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="integration-tile reveal stagger-2">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="#3A5BC7"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span class="text-xs font-semibold" style="color:#555">WhatsApp</span>
+      </div>
+
+      <!-- Google Drive -->
+      <div class="integration-tile reveal stagger-3">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M8.267 3L3 12.5l4.267 7.5h9.466L21 12.5 15.733 3z" fill="#3A5BC7" opacity="0.2"/><path d="M3 12.5L8.267 3h7.466L21 12.5H3z" fill="#3A5BC7" opacity="0.5"/><path d="M7.267 20L3 12.5h18l-4.267 7.5H7.267z" fill="#3A5BC7"/></svg>
+        <span class="text-xs font-semibold" style="color:#555">Google Drive</span>
+      </div>
+
+      <!-- PDF -->
+      <div class="integration-tile reveal stagger-4">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3A5BC7" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="12" y2="17"/></svg>
+        <span class="text-xs font-semibold" style="color:#555">PDF / Docs</span>
+      </div>
+
+      <!-- Notion -->
+      <div class="integration-tile reveal stagger-5">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="#3A5BC7"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></svg>
+        <span class="text-xs font-semibold" style="color:#555">Notion</span>
+      </div>
+
+      <!-- Web / Widget -->
+      <div class="integration-tile reveal stagger-6">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3A5BC7" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span class="text-xs font-semibold" style="color:#555">Web Widget</span>
+      </div>
+
+      <!-- Custom Integration -->
+      <div class="integration-tile custom-tile reveal stagger-6">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#3A5BC7" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        <span class="text-xs font-semibold text-center" style="color:#3A5BC7">Custom API<br/>Integration</span>
+      </div>
+
+    </div>
+    <p class="text-center text-sm mt-6 reveal" style="color:#888">
+      Need integration with another platform? <a href="https://wa.me/6285234829300?text=Hi+Jason%2C+I+need+a+custom+integration+for+Eliot+AI" target="_blank" class="font-semibold" style="color:#3A5BC7">Contact us</a> — we can build custom integrations tailored to your stack.
+    </p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ FEATURES ═══════════════════════ -->
+<section id="features" class="py-20 md:py-28" style="background:#f0f2f5">
+  <div class="max-w-6xl mx-auto px-5">
+
+    <div class="text-center mb-16 reveal">
+      <span class="badge mb-4">Core Capabilities</span>
+      <h2 class="font-serif text-3xl md:text-5xl mt-3 mb-4" style="color:#1B2B6B; letter-spacing:-0.02em">
+        Everything You Need to<br class="hidden md:block"/> Run Effortless Support
+      </h2>
+      <p class="text-lg max-w-xl mx-auto" style="color:#555555">
+        Eliot replaces repetitive manual support with an intelligent, self-improving system — so your team can focus on growth.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Card 1 -->
+      <div class="feature-card p-7 reveal stagger-1">
+        <div class="feature-icon mb-5">
+          <svg width="26" height="26" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color:#1B2B6B">RAG-Powered Chatbot Engine</h3>
+        <p class="text-sm leading-relaxed" style="color:#555555">
+          Our Retrieval-Augmented Generation engine searches your knowledge base in real time to deliver precise, context-aware answers — not generic guesses.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="feature-card p-7 reveal stagger-2">
+        <div class="feature-icon mb-5">
+          <svg width="26" height="26" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9S3 16.97 3 12 7.03 3 12 3s9 4.03 9 9z"/></svg>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color:#1B2B6B">Automated Ticket Resolution</h3>
+        <p class="text-sm leading-relaxed" style="color:#555555">
+          Eliot automatically opens, categorizes, and resolves support tickets without human intervention — and escalates only the genuinely complex issues.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="feature-card p-7 reveal stagger-3">
+        <div class="feature-icon mb-5">
+          <svg width="26" height="26" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color:#1B2B6B">Knowledge Base Indexing</h3>
+        <p class="text-sm leading-relaxed" style="color:#555555">
+          Upload PDFs, images, FAQ sheets, and data tables. Eliot parses and indexes every source, making it instantly searchable and queryable.
+        </p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="feature-card p-7 reveal stagger-4">
+        <div class="feature-icon mb-5">
+          <svg width="26" height="26" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color:#1B2B6B">Self-Learning from Human Tickets</h3>
+        <p class="text-sm leading-relaxed" style="color:#555555">
+          Every time a human agent resolves a ticket, Eliot learns from that resolution and updates its knowledge base within 60 seconds — continuously improving.
+        </p>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="feature-card p-7 reveal stagger-5">
+        <div class="feature-icon mb-5">
+          <svg width="26" height="26" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color:#1B2B6B">True 24/7 Availability</h3>
+        <p class="text-sm leading-relaxed" style="color:#555555">
+          Your customers span time zones. Eliot never sleeps, never gets tired, and never keeps a customer waiting — with a 99% uptime target backed by our SLA.
+        </p>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="feature-card p-7 reveal stagger-6">
+        <div class="feature-icon mb-5">
+          <svg width="26" height="26" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+        </div>
+        <h3 class="text-lg font-bold mb-2" style="color:#1B2B6B">Multi-Format Document Support</h3>
+        <p class="text-sm leading-relaxed" style="color:#555555">
+          Eliot reads and understands PDFs, images, structured tables, and FAQ documents — so you can feed it exactly the materials your support team already uses.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ ROI CALCULATOR ═══════════════════════ -->
+<section class="py-20 md:py-28" style="background:#f0f2f5">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="text-center mb-14 reveal">
+      <span class="badge mb-4">Calculate Your Savings</span>
+      <h2 class="font-serif text-3xl md:text-5xl mt-3 mb-4" style="color:#1B2B6B; letter-spacing:-0.02em">
+        How Much Could You Save<br class="hidden md:block"/> with Eliot?
+      </h2>
+      <p class="text-lg max-w-lg mx-auto" style="color:#555">Use the sliders below to estimate your monthly savings.</p>
+    </div>
+
+    <div class="rounded-2xl bg-white p-8 md:p-10 reveal" style="box-shadow:0 8px 40px rgba(27,43,107,0.10); border:1px solid #e5eaf5">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+        <!-- Inputs -->
+        <div class="space-y-8">
+          <!-- CS Agents -->
+          <div>
+            <div class="flex justify-between mb-3">
+              <label class="text-sm font-semibold" style="color:#1B2B6B">Number of CS Agents</label>
+              <span class="text-sm font-bold px-3 py-0.5 rounded-full" style="background:#f0f4ff; color:#3A5BC7"><span id="roi-agents-val">3</span> agents</span>
+            </div>
+            <input type="range" id="roi-agents" class="roi-slider" min="1" max="20" value="3"/>
+            <div class="flex justify-between text-xs mt-1" style="color:#aaa"><span>1</span><span>20</span></div>
+          </div>
+          <!-- Salary -->
+          <div>
+            <div class="flex justify-between mb-3">
+              <label class="text-sm font-semibold" style="color:#1B2B6B">Salary per CS Agent / Month</label>
+              <span class="text-sm font-bold px-3 py-0.5 rounded-full" style="background:#f0f4ff; color:#3A5BC7">$<span id="roi-salary-val">5</span>k</span>
+            </div>
+            <input type="range" id="roi-salary" class="roi-slider" min="2" max="15" value="5"/>
+            <div class="flex justify-between text-xs mt-1" style="color:#aaa"><span>$2k</span><span>$15k</span></div>
+          </div>
+          <!-- Repetitive % -->
+          <div>
+            <div class="flex justify-between mb-3">
+              <label class="text-sm font-semibold" style="color:#1B2B6B">% of Repetitive Tickets</label>
+              <span class="text-sm font-bold px-3 py-0.5 rounded-full" style="background:#f0f4ff; color:#3A5BC7"><span id="roi-rep-val">70</span>%</span>
+            </div>
+            <input type="range" id="roi-rep" class="roi-slider" min="10" max="95" value="70"/>
+            <div class="flex justify-between text-xs mt-1" style="color:#aaa"><span>10%</span><span>95%</span></div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="flex flex-col gap-4">
+          <div class="roi-result-card">
+            <div class="text-xs font-semibold tracking-widest mb-1" style="color:#888">CURRENT CS COST</div>
+            <div class="text-2xl font-bold" style="color:#1B2B6B"><span id="roi-current">$15,000</span> / mo</div>
+          </div>
+          <div class="roi-result-card">
+            <div class="text-xs font-semibold tracking-widest mb-1" style="color:#888">HANDLED BY ELIOT</div>
+            <div class="text-2xl font-bold" style="color:#3A5BC7"><span id="roi-handle">70</span>% of tickets</div>
+          </div>
+          <div class="roi-result-card highlight">
+            <div class="text-xs font-semibold tracking-widest mb-2" style="color:rgba(255,255,255,0.6)">ESTIMATED SAVINGS</div>
+            <div class="text-3xl font-bold text-white mb-1"><span id="roi-save">$10,500</span> / mo</div>
+            <div class="text-sm" style="color:rgba(255,255,255,0.65)">ROI <span id="roi-x">17</span>x your Eliot investment</div>
+          </div>
+          <a id="roi-wa-btn" href="https://wa.me/6285234829300?text=Hi+Jason%2C+I%27m+interested+in+Eliot+AI" target="_blank"
+             class="btn-cta justify-center text-center text-sm">
+            Contact Us via WhatsApp →
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ HOW IT WORKS ═══════════════════════ -->
+<section id="how-it-works" class="py-20 md:py-28 bg-white">
+  <div class="max-w-5xl mx-auto px-5">
+
+    <div class="text-center mb-16 reveal">
+      <span class="badge mb-4">Simple Setup</span>
+      <h2 class="font-serif text-3xl md:text-5xl mt-3 mb-4" style="color:#1B2B6B; letter-spacing:-0.02em">
+        Live in 3 Steps.<br class="hidden md:block"/> Seriously.
+      </h2>
+      <p class="text-lg max-w-xl mx-auto" style="color:#555555">
+        No engineers, no complex integrations. Just upload, let Eliot learn, and watch your support transform.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 relative">
+
+      <!-- Step 1 -->
+      <div class="text-center reveal stagger-1 relative">
+        <div class="w-16 h-16 rounded-2xl mx-auto mb-5 flex items-center justify-center" style="background:linear-gradient(135deg,#1B2B6B,#3A5BC7)">
+          <svg width="28" height="28" fill="none" stroke="white" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </div>
+        <div class="text-xs font-bold tracking-widest mb-2" style="color:#3A5BC7">STEP 01</div>
+        <h3 class="text-xl font-bold mb-3" style="color:#1B2B6B">Upload Your Documents</h3>
+        <p class="text-sm leading-relaxed" style="color:#555555">
+          Drop in your PDFs, image files, FAQ sheets, pricing tables, or any support material. Eliot accepts them all and begins indexing immediately.
+        </p>
+      </div>
+
+      <!-- Connector -->
+      <div class="hidden md:block absolute top-8 left-1/3 right-2/3 h-0.5" style="background:linear-gradient(90deg,#3A5BC7,#c5d0f0); width:calc(33.33% - 40px); left:calc(33.33% + 20px)"></div>
+
+      <!-- Step 2 -->
+      <div class="text-center reveal stagger-2 relative">
+        <div class="w-16 h-16 rounded-2xl mx-auto mb-5 flex items-center justify-center" style="background:linear-gradient(135deg,#1B2B6B,#3A5BC7)">
+          <svg width="28" height="28" fill="none" stroke="white" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="text-xs font-bold tracking-widest mb-2" style="color:#3A5BC7">STEP 02</div>
+        <h3 class="text-xl font-bold mb-3" style="color:#1B2B6B">Eliot Learns Instantly</h3>
+        <p class="text-sm leading-relaxed" style="color:#555555">
+          Within seconds, Eliot's RAG engine parses, embeds, and indexes every document. Knowledge updates propagate across the system in under 60 seconds.
+        </p>
+      </div>
+
+      <!-- Connector -->
+      <div class="hidden md:block absolute top-8 h-0.5" style="background:linear-gradient(90deg,#3A5BC7,#c5d0f0); width:calc(33.33% - 40px); left:calc(66.66% + 20px)"></div>
+
+      <!-- Step 3 -->
+      <div class="text-center reveal stagger-3">
+        <div class="w-16 h-16 rounded-2xl mx-auto mb-5 flex items-center justify-center" style="background:linear-gradient(135deg,#1B2B6B,#3A5BC7)">
+          <svg width="28" height="28" fill="none" stroke="white" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="13" y2="14"/></svg>
+        </div>
+        <div class="text-xs font-bold tracking-widest mb-2" style="color:#3A5BC7">STEP 03</div>
+        <h3 class="text-xl font-bold mb-3" style="color:#1B2B6B">AI Resolves Tickets 24/7</h3>
+        <p class="text-sm leading-relaxed" style="color:#555555">
+          Eliot handles incoming questions in real time, resolves tickets automatically, and escalates to your human team only when truly necessary — day or night.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Highlight box -->
+    <div class="mt-16 rounded-2xl p-8 md:p-10 reveal" style="background:#f0f4ff; border:1px solid #c5d0f0">
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+        <div class="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center" style="background:#1B2B6B">
+          <svg width="26" height="26" fill="none" stroke="white" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <h4 class="text-lg font-bold mb-1" style="color:#1B2B6B">Continuously Self-Improving</h4>
+          <p class="text-sm leading-relaxed" style="color:#555555">
+            Every ticket your human agents resolve is fed back into Eliot's learning pipeline. The more your team uses it, the smarter it becomes — creating a virtuous cycle of ever-improving support quality, all without any manual retraining.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ COMPARISON TABLE ═══════════════════════ -->
+<section class="py-20 md:py-28 bg-white">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="text-center mb-14 reveal">
+      <span class="badge mb-4">Why Eliot</span>
+      <h2 class="font-serif text-3xl md:text-5xl mt-3 mb-4" style="color:#1B2B6B; letter-spacing:-0.02em">
+        Eliot vs The Alternatives
+      </h2>
+      <p class="text-lg max-w-lg mx-auto" style="color:#555">See why businesses that tried other approaches ultimately chose Eliot.</p>
+    </div>
+
+    <div class="reveal overflow-x-auto overflow-hidden rounded-2xl" style="box-shadow:0 4px 28px rgba(27,43,107,0.09); border:1px solid #e5eaf5">
+      <table class="w-full min-w-[580px]" style="border-collapse:collapse">
+        <thead>
+          <tr style="background:#f8faff; border-bottom:2px solid #e5eaf5">
+            <th class="py-4 px-5 text-left text-sm font-semibold" style="color:#888; width:32%">Feature</th>
+            <th class="py-4 px-5 text-center text-sm font-bold" style="color:#fff; background:#1B2B6B; width:23%">
+              <div class="flex items-center justify-center gap-1.5">
+                <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Eliot AI
+              </div>
+            </th>
+            <th class="py-4 px-5 text-center text-sm font-semibold" style="color:#555; width:22%">In-House CS Team</th>
+            <th class="py-4 px-5 text-center text-sm font-semibold" style="color:#555; width:23%">Enterprise Help Desks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f0f2f5">
+            <td class="py-4 px-5 text-sm font-semibold" style="color:#1B2B6B">Monthly Cost</td>
+            <td class="py-4 px-5 text-center text-sm font-bold" style="background:#f4f7ff; color:#1B2B6B">$200–$400 / mo</td>
+            <td class="py-4 px-5 text-center text-sm" style="color:#555">$4,000–$8,000 / agent</td>
+            <td class="py-4 px-5 text-center text-sm" style="color:#555">$89–$499+ / mo</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f2f5; background:#fafbff">
+            <td class="py-4 px-5 text-sm font-semibold" style="color:#1B2B6B">Time to Go Live</td>
+            <td class="py-4 px-5 text-center" style="background:#f4f7ff"><span class="comp-check">✓</span><span class="text-xs ml-1" style="color:#555">Same day</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-cross">✗</span><span class="text-xs ml-1" style="color:#888">Months of hiring</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-partial">◑</span><span class="text-xs ml-1" style="color:#888">Complex onboarding</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f2f5">
+            <td class="py-4 px-5 text-sm font-semibold" style="color:#1B2B6B">24/7 Operations</td>
+            <td class="py-4 px-5 text-center" style="background:#f4f7ff"><span class="comp-check">✓</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-cross">✗</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-check">✓</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f2f5; background:#fafbff">
+            <td class="py-4 px-5 text-sm font-semibold" style="color:#1B2B6B">Self-Learning</td>
+            <td class="py-4 px-5 text-center" style="background:#f4f7ff"><span class="comp-check">✓</span><span class="text-xs ml-1" style="color:#555">Automatic</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-partial">◑</span><span class="text-xs ml-1" style="color:#888">Manual training</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-cross">✗</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f2f5">
+            <td class="py-4 px-5 text-sm font-semibold" style="color:#1B2B6B">Custom Knowledge Base</td>
+            <td class="py-4 px-5 text-center" style="background:#f4f7ff"><span class="comp-check">✓</span><span class="text-xs ml-1" style="color:#555">Upload docs</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-partial">◑</span><span class="text-xs ml-1" style="color:#888">Depends on agent</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-partial">◑</span><span class="text-xs ml-1" style="color:#888">Limited</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f2f5; background:#fafbff">
+            <td class="py-4 px-5 text-sm font-semibold" style="color:#1B2B6B">Response Speed</td>
+            <td class="py-4 px-5 text-center" style="background:#f4f7ff"><span class="comp-check">✓</span><span class="text-xs ml-1" style="color:#555">&lt; 1 second</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-cross">✗</span><span class="text-xs ml-1" style="color:#888">Minutes to hours</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-partial">◑</span><span class="text-xs ml-1" style="color:#888">Depends on agent</span></td>
+          </tr>
+          <tr>
+            <td class="py-4 px-5 text-sm font-semibold" style="color:#1B2B6B">Custom Integration</td>
+            <td class="py-4 px-5 text-center" style="background:#f4f7ff"><span class="comp-check">✓</span><span class="text-xs ml-1" style="color:#555">API + Webhook</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-cross">✗</span></td>
+            <td class="py-4 px-5 text-center"><span class="comp-partial">◑</span><span class="text-xs ml-1" style="color:#888">Higher-tier plans only</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex justify-center mt-8 reveal">
+      <a href="https://wa.me/6285234829300?text=Hi+Jason%2C+I%27d+like+to+learn+more+about+Eliot+AI" target="_blank" class="btn-cta text-sm">
+        Ask Us Anything via WhatsApp →
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ WHO IT'S FOR ═══════════════════════ -->
+<section class="py-20 md:py-24" style="background:#f0f2f5">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="text-center mb-14 reveal">
+      <span class="badge mb-4">Built For</span>
+      <h2 class="font-serif text-3xl md:text-5xl mt-3 mb-4" style="color:#1B2B6B; letter-spacing:-0.02em">
+        Made for People Who<br class="hidden md:block"/> Teach, Build & Scale
+      </h2>
+      <p class="text-lg max-w-lg mx-auto" style="color:#555555">
+        Whether you run an online academy or a growing e-commerce business, Eliot scales with your support needs.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <div class="bg-white rounded-2xl p-7 border border-gray-100 reveal stagger-1" style="box-shadow:0 4px 20px rgba(27,43,107,0.06)">
+        <div class="w-12 h-12 rounded-xl mb-4 flex items-center justify-center" style="background:#f0f4ff">
+          <svg width="22" height="22" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        <h3 class="font-bold text-lg mb-2" style="color:#1B2B6B">Online Course Creators</h3>
+        <p class="text-sm leading-relaxed mb-4" style="color:#555555">Handle hundreds of student questions about lesson access, certificates, refunds, and technical issues — automatically.</p>
+        <ul class="space-y-2">
+          <li class="check-item">
+            <svg width="16" height="16" fill="none" stroke="#3A5BC7" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Instant student Q&amp;A</span>
+          </li>
+          <li class="check-item">
+            <svg width="16" height="16" fill="none" stroke="#3A5BC7" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Course materials indexing</span>
+          </li>
+          <li class="check-item">
+            <svg width="16" height="16" fill="none" stroke="#3A5BC7" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Enrollment &amp; billing support</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-white rounded-2xl p-7 border reveal stagger-2" style="border-color:#3A5BC7; box-shadow:0 8px 32px rgba(58,91,199,0.12)">
+        <div class="w-12 h-12 rounded-xl mb-4 flex items-center justify-center" style="background:#1B2B6B">
+          <svg width="22" height="22" fill="none" stroke="white" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="flex items-center gap-2 mb-2">
+          <h3 class="font-bold text-lg" style="color:#1B2B6B">Business Operators</h3>
+          <span class="text-xs px-2 py-0.5 rounded-full font-semibold" style="background:#3A5BC7; color:white">Most Popular</span>
+        </div>
+        <p class="text-sm leading-relaxed mb-4" style="color:#555555">Scale customer support for your SaaS product, agency, or service business without adding headcount.</p>
+        <ul class="space-y-2">
+          <li class="check-item">
+            <svg width="16" height="16" fill="none" stroke="#3A5BC7" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Multi-source knowledge base</span>
+          </li>
+          <li class="check-item">
+            <svg width="16" height="16" fill="none" stroke="#3A5BC7" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Ticket escalation rules</span>
+          </li>
+          <li class="check-item">
+            <svg width="16" height="16" fill="none" stroke="#3A5BC7" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Self-learning pipeline</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-white rounded-2xl p-7 border border-gray-100 reveal stagger-3" style="box-shadow:0 4px 20px rgba(27,43,107,0.06)">
+        <div class="w-12 h-12 rounded-xl mb-4 flex items-center justify-center" style="background:#f0f4ff">
+          <svg width="22" height="22" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 class="font-bold text-lg mb-2" style="color:#1B2B6B">Community Builders</h3>
+        <p class="text-sm leading-relaxed mb-4" style="color:#555555">Manage member questions, event information, and platform guides across a growing community — without a dedicated support team.</p>
+        <ul class="space-y-2">
+          <li class="check-item">
+            <svg width="16" height="16" fill="none" stroke="#3A5BC7" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Member FAQ automation</span>
+          </li>
+          <li class="check-item">
+            <svg width="16" height="16" fill="none" stroke="#3A5BC7" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Event &amp; schedule queries</span>
+          </li>
+          <li class="check-item">
+            <svg width="16" height="16" fill="none" stroke="#3A5BC7" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>24/7 always-on presence</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ ABOUT / FOUNDER ═══════════════════════ -->
+<section id="about" class="py-20 md:py-28 bg-white">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="text-center mb-14 reveal">
+      <span class="badge mb-4">The Team</span>
+      <h2 class="font-serif text-3xl md:text-5xl mt-3 mb-4" style="color:#1B2B6B; letter-spacing:-0.02em">
+        Built by Someone Who<br class="hidden md:block"/> Lived the Problem
+      </h2>
+    </div>
+
+    <!-- Founder card -->
+    <div class="rounded-2xl p-8 md:p-10 reveal mb-12 flex flex-col md:flex-row items-start gap-8" style="background:#f0f4ff; border:1px solid #c5d0f0">
+      <div class="flex-shrink-0">
+        <div class="w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-bold text-white" style="background:linear-gradient(135deg,#1B2B6B,#3A5BC7)">JE</div>
+      </div>
+      <div>
+        <div class="font-bold text-xl mb-0.5" style="color:#1B2B6B">Jason Eliot Suryanata</div>
+        <div class="text-sm font-semibold mb-4" style="color:#3A5BC7">Founder &amp; Builder · Eliot Tech</div>
+        <p class="text-base leading-relaxed mb-4" style="color:#555">
+          I used to help small businesses manage their customer support. Every day: the same questions, the same answers, repeated until the team burned out. The problem wasn't the people. It was a system that wasn't leveraging the technology available.
+        </p>
+        <p class="text-base leading-relaxed" style="color:#555">
+          That's why I built Eliot — an AI system that learns from your documents, answers customer questions 24/7, and gets smarter every day. The goal is simple: give your team back the time to focus on what truly needs a human touch.
+        </p>
+      </div>
+    </div>
+
+    <!-- Values -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="feature-card p-7 reveal stagger-1">
+        <div class="feature-icon mb-4">
+          <svg width="24" height="24" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="font-bold text-base mb-2" style="color:#1B2B6B">Full Transparency</h3>
+        <p class="text-sm leading-relaxed" style="color:#555">You know exactly what you're paying for and what Eliot can and can't do. No hidden fees, no empty promises.</p>
+      </div>
+      <div class="feature-card p-7 reveal stagger-2">
+        <div class="feature-icon mb-4">
+          <svg width="24" height="24" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3 class="font-bold text-base mb-2" style="color:#1B2B6B">Real Results</h3>
+        <p class="text-sm leading-relaxed" style="color:#555">I measure success by tickets resolved, not features sold. If Eliot isn't working for you, I want to know why.</p>
+      </div>
+      <div class="feature-card p-7 reveal stagger-3">
+        <div class="feature-icon mb-4">
+          <svg width="24" height="24" fill="none" stroke="#3A5BC7" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 class="font-bold text-base mb-2" style="color:#1B2B6B">Human-First AI</h3>
+        <p class="text-sm leading-relaxed" style="color:#555">AI isn't here to replace people entirely. It's here to handle the repetitive so your team can focus on what matters most.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ TESTIMONIALS ═══════════════════════ -->
+<section class="py-20 md:py-28 bg-white">
+  <div class="max-w-5xl mx-auto px-5">
+
+    <div class="text-center mb-14 reveal">
+      <span class="badge mb-4">Customer Stories</span>
+      <h2 class="font-serif text-3xl md:text-5xl mt-3" style="color:#1B2B6B; letter-spacing:-0.02em">
+        Loved by Teams Who<br class="hidden md:block"/> Chose to Stop Repeating Themselves
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <div class="testimonial-card p-6 reveal stagger-1">
+        <div class="flex gap-1 mb-4">
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="text-sm leading-relaxed mb-5" style="color:#555555">
+          "Eliot answered 90% of my students' questions in the first week — without me touching a single ticket. My team finally has time to focus on what matters."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm" style="background:#3A5BC7">RA</div>
+          <div>
+            <div class="font-semibold text-sm" style="color:#1B2B6B">Rizky A.</div>
+            <div class="text-xs" style="color:#888">Online Course Creator, Jakarta</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card p-6 reveal stagger-2">
+        <div class="flex gap-1 mb-4">
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="text-sm leading-relaxed mb-5" style="color:#555555">
+          "The self-learning feature is what sold me. Every time one of my agents handles an unusual case, Eliot picks it up and handles similar cases automatically from then on."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm" style="background:#1B2B6B">SP</div>
+          <div>
+            <div class="font-semibold text-sm" style="color:#1B2B6B">Siti P.</div>
+            <div class="text-xs" style="color:#888">SaaS Founder, Surabaya</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card p-6 reveal stagger-3">
+        <div class="flex gap-1 mb-4">
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg width="16" height="16" fill="#F59E0B" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="text-sm leading-relaxed mb-5" style="color:#555555">
+          "Setting up was genuinely 10 minutes. I uploaded our product PDFs, and Eliot was answering customer questions accurately before I'd even finished my coffee."
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-white text-sm" style="background:#2d6a4f">BW</div>
+          <div>
+            <div class="font-semibold text-sm" style="color:#1B2B6B">Budi W.</div>
+            <div class="text-xs" style="color:#888">E-Commerce Operator, Bandung</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ PRICING ═══════════════════════ -->
+<section id="pricing" class="py-20 md:py-28" style="background:#f0f2f5">
+  <div class="max-w-5xl mx-auto px-5">
+
+    <div class="text-center mb-14 reveal">
+      <span class="badge mb-4">Simple Pricing</span>
+      <h2 class="font-serif text-3xl md:text-5xl mt-3 mb-4" style="color:#1B2B6B; letter-spacing:-0.02em">
+        One-Time Setup.<br class="hidden md:block"/> Monthly Maintenance.
+      </h2>
+      <p class="text-lg max-w-lg mx-auto" style="color:#555555">
+        Transparent pricing — no hidden fees. Pick the plan that fits your scale and grow from there.
+      </p>
+    </div>
+
+    <!-- Pricing Comparison Table -->
+    <div class="reveal overflow-x-auto rounded-2xl" style="box-shadow:0 8px 40px rgba(27,43,107,0.12); padding-top:20px; margin-top:-4px">
+      <table class="w-full min-w-[600px]" style="border-collapse:collapse">
+
+        <!-- Header Row -->
+        <thead>
+          <tr style="background:#1B2B6B">
+            <th class="text-left py-5 px-6 text-sm font-semibold" style="color:rgba(255,255,255,0.6); width:30%"></th>
+            <th class="py-5 px-6 text-center" style="width:23.3%">
+              <div class="text-xs font-bold tracking-widest mb-1" style="color:rgba(255,255,255,0.55)">STARTER</div>
+            </th>
+            <th class="py-5 px-6 text-center relative" style="background:#3A5BC7; width:23.3%">
+              <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span class="text-xs font-bold px-3 py-1 rounded-full text-white" style="background:#f59e0b; white-space:nowrap">MOST POPULAR</span>
+              </div>
+              <div class="text-xs font-bold tracking-widest mb-1 mt-2" style="color:rgba(255,255,255,0.8)">GROWTH</div>
+            </th>
+            <th class="py-5 px-6 text-center" style="width:23.3%">
+              <div class="text-xs font-bold tracking-widest mb-1" style="color:rgba(255,255,255,0.55)">ENTERPRISE</div>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Setup Fee -->
+          <tr style="background:#ffffff; border-bottom:1px solid #e5eaf5">
+            <td class="py-4 px-6 text-sm font-bold" style="color:#1B2B6B">Setup Fee</td>
+            <td class="py-4 px-6 text-center text-sm font-semibold" style="color:#333">$1,000</td>
+            <td class="py-4 px-6 text-center text-sm font-semibold" style="color:#333; background:#f4f7ff">$2,000</td>
+            <td class="py-4 px-6 text-center text-sm font-semibold" style="color:#333">$3,000+</td>
+          </tr>
+
+          <!-- Maintenance/bln -->
+          <tr style="background:#fafbff; border-bottom:1px solid #e5eaf5">
+            <td class="py-4 px-6 text-sm font-bold" style="color:#1B2B6B">Maintenance / mo</td>
+            <td class="py-4 px-6 text-center text-sm font-semibold" style="color:#333">$200</td>
+            <td class="py-4 px-6 text-center text-sm font-semibold" style="color:#333; background:#f4f7ff">$400</td>
+            <td class="py-4 px-6 text-center text-sm font-semibold" style="color:#3A5BC7">Custom</td>
+          </tr>
+
+          <!-- Conversations/bln -->
+          <tr style="background:#ffffff; border-bottom:1px solid #e5eaf5">
+            <td class="py-4 px-6 text-sm font-bold" style="color:#1B2B6B">Conversations / mo</td>
+            <td class="py-4 px-6 text-center text-sm" style="color:#333">5,000</td>
+            <td class="py-4 px-6 text-center text-sm" style="color:#333; background:#f4f7ff">10,000</td>
+            <td class="py-4 px-6 text-center" style="color:#3A5BC7">
+              <svg class="inline" width="18" height="18" fill="none" stroke="#3A5BC7" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <span class="text-sm font-semibold ml-1">Unlimited</span>
+            </td>
+          </tr>
+
+          <!-- Document uploads -->
+          <tr style="background:#fafbff; border-bottom:1px solid #e5eaf5">
+            <td class="py-4 px-6 text-sm font-bold" style="color:#1B2B6B">Document Uploads</td>
+            <td class="py-4 px-6 text-center text-sm" style="color:#333">50 docs</td>
+            <td class="py-4 px-6 text-center text-sm" style="color:#333; background:#f4f7ff">200 docs</td>
+            <td class="py-4 px-6 text-center" style="color:#3A5BC7">
+              <svg class="inline" width="18" height="18" fill="none" stroke="#3A5BC7" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <span class="text-sm font-semibold ml-1">Unlimited</span>
+            </td>
+          </tr>
+
+          <!-- Channels -->
+          <tr style="background:#ffffff; border-bottom:1px solid #e5eaf5">
+            <td class="py-4 px-6 text-sm font-bold" style="color:#1B2B6B">Channels</td>
+            <td class="py-4 px-6 text-center text-sm" style="color:#333">1 platform</td>
+            <td class="py-4 px-6 text-center text-sm" style="color:#333; background:#f4f7ff">3 platforms</td>
+            <td class="py-4 px-6 text-center" style="color:#3A5BC7">
+              <svg class="inline" width="18" height="18" fill="none" stroke="#3A5BC7" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <span class="text-sm font-semibold ml-1">Unlimited</span>
+            </td>
+          </tr>
+
+          <!-- Support -->
+          <tr style="background:#fafbff; border-bottom:1px solid #e5eaf5">
+            <td class="py-4 px-6 text-sm font-bold" style="color:#1B2B6B">Support</td>
+            <td class="py-4 px-6 text-center text-sm" style="color:#333">Email</td>
+            <td class="py-4 px-6 text-center text-sm" style="color:#333; background:#f4f7ff">Priority</td>
+            <td class="py-4 px-6 text-center text-sm font-semibold" style="color:#333">Dedicated</td>
+          </tr>
+
+          <!-- CTA Row -->
+          <tr style="background:#ffffff">
+            <td class="py-6 px-6"></td>
+            <td class="py-6 px-6 text-center">
+              <a href="https://wa.me/6285234829300?text=Halo%2C+saya+tertarik+dengan+paket+Starter+Eliot+AI" target="_blank"
+                 class="inline-block font-semibold py-2.5 px-5 rounded-xl border-2 text-sm transition"
+                 style="border-color:#1B2B6B; color:#1B2B6B"
+                 onmouseover="this.style.background='#1B2B6B'; this.style.color='white'"
+                 onmouseout="this.style.background='transparent'; this.style.color='#1B2B6B'">
+                Get Started
+              </a>
+            </td>
+            <td class="py-6 px-6 text-center" style="background:#f4f7ff">
+              <a href="https://wa.me/6285234829300?text=Halo%2C+saya+tertarik+dengan+paket+Growth+Eliot+AI" target="_blank"
+                 class="inline-block font-bold py-2.5 px-5 rounded-xl text-white text-sm transition"
+                 style="background:#1B2B6B"
+                 onmouseover="this.style.background='#3A5BC7'"
+                 onmouseout="this.style.background='#1B2B6B'">
+                Get Started →
+              </a>
+            </td>
+            <td class="py-6 px-6 text-center">
+              <a href="https://wa.me/6285234829300?text=Halo%2C+saya+tertarik+dengan+paket+Enterprise+Eliot+AI" target="_blank"
+                 class="inline-block font-semibold py-2.5 px-5 rounded-xl border-2 text-sm transition"
+                 style="border-color:#1B2B6B; color:#1B2B6B"
+                 onmouseover="this.style.background='#1B2B6B'; this.style.color='white'"
+                 onmouseout="this.style.background='transparent'; this.style.color='#1B2B6B'">
+                Contact Sales
+              </a>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <p class="text-center text-sm mt-8" style="color:#888">Have questions? Chat us directly on
+      <a href="https://wa.me/6285234829300" target="_blank" class="font-semibold" style="color:#3A5BC7">WhatsApp</a>
+       &middot; One-time setup fee &middot; Flexible monthly maintenance
+    </p>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ FAQ ═══════════════════════ -->
+<section id="faq" class="py-20 md:py-28" style="background:#f0f2f5">
+  <div class="max-w-3xl mx-auto px-5">
+    <div class="text-center mb-14 reveal">
+      <span class="badge mb-4">FAQ</span>
+      <h2 class="font-serif text-3xl md:text-5xl mt-3 mb-4" style="color:#1B2B6B; letter-spacing:-0.02em">
+        Frequently Asked Questions
+      </h2>
+    </div>
+
+    <div class="bg-white rounded-2xl px-6 md:px-8 reveal" style="box-shadow:0 4px 28px rgba(27,43,107,0.08); border:1px solid #e5eaf5">
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">What is Eliot AI?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body"><p>Eliot AI is an automated customer service system built on RAG (Retrieval-Augmented Generation) technology. You upload your business documents — FAQs, guides, catalogs — and Eliot learns from them to answer customer questions accurately, 24/7, without needing extra CS staff.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">How long does the setup take?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body"><p>Usually 3–7 business days depending on complexity. Day 1: consultation and requirements mapping. Days 2–4: system setup and knowledge base upload. Days 5–7: testing and fine-tuning. After that, Eliot is ready to go live.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">What file types can I upload to the knowledge base?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body"><p>Eliot supports PDFs, images (JPG/PNG), Google Docs, spreadsheets, and plain text. This includes infographics, pricing tables, and technical guides. The more complete your documents, the more accurate Eliot's answers will be.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Do I need an IT team or coding skills?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body"><p>Not at all. I handle all the technical parts — setup, configuration, and platform integration. You just need to prepare your business documents and provide access to the platforms you want integrated.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">How does Eliot learn and improve over time?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body"><p>Whenever a question can't be answered by Eliot and gets escalated to your team, the resolution can be fed back into the knowledge base. This process can happen automatically (within 60 seconds) or manually, depending on your preference.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">Can Eliot integrate with custom platforms?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body"><p>Yes. Beyond standard integrations (Telegram, WhatsApp, Web Widget, Google Drive), we also offer <strong>Custom API Integration</strong> for platforms you've built yourself or internal business software. <a href="https://wa.me/6285234829300?text=Hi+Jason%2C+I+need+a+custom+integration" target="_blank" style="color:#3A5BC7; font-weight:600">Contact us</a> to discuss your requirements.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">What's the difference between Setup Fee and Maintenance?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body"><p>The <strong>Setup Fee</strong> is a one-time cost covering system configuration, platform integration, and initial knowledge base training. The <strong>Maintenance Fee</strong> is a monthly charge that includes: server hosting, knowledge base updates, performance monitoring, bug fixes, and ongoing technical support.</p></div>
+      </div>
+
+      <div class="faq-item" style="border-bottom:none">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          <span class="faq-q">What happens if I want to cancel?</span>
+          <svg class="faq-chevron" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-body"><p>You can cancel at any time by notifying us at least 7 days before your next maintenance period. All your data and knowledge base content will be exported in a format you can keep. There are no cancellation penalties or additional fees.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ LEAD FORM ═══════════════════════ -->
+<section class="py-20 md:py-28 bg-white">
+  <div class="max-w-2xl mx-auto px-5">
+    <div class="text-center mb-12 reveal">
+      <span class="badge mb-4">Request a Demo</span>
+      <h2 class="font-serif text-3xl md:text-4xl mt-3 mb-4" style="color:#1B2B6B; letter-spacing:-0.02em">
+        Try Eliot for Your Business
+      </h2>
+      <p class="text-base" style="color:#555">Fill out the form below and I'll reach out via WhatsApp within 24 hours.</p>
+    </div>
+
+    <div class="rounded-2xl p-8 md:p-10 reveal" style="background:#f8faff; border:1px solid #e5eaf5; box-shadow:0 4px 28px rgba(27,43,107,0.08)">
+      <div class="space-y-5">
+        <div>
+          <label class="block text-sm font-semibold mb-2" style="color:#1B2B6B">Full Name *</label>
+          <input type="text" id="lead-name" class="form-input" placeholder="e.g. John Smith"/>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-2" style="color:#1B2B6B">Business Name *</label>
+          <input type="text" id="lead-biz" class="form-input" placeholder="e.g. Acme Corp"/>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-2" style="color:#1B2B6B">WhatsApp Number *</label>
+          <input type="tel" id="lead-wa" class="form-input" placeholder="e.g. +1 234 567 8900"/>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold mb-2" style="color:#1B2B6B">Platform to Integrate</label>
+          <select id="lead-platform" class="form-input" style="cursor:pointer">
+            <option value="">— Select platform —</option>
+            <option>Telegram</option>
+            <option>WhatsApp</option>
+            <option>Web Widget</option>
+            <option>Multiple platforms</option>
+            <option>Custom / Other</option>
+          </select>
+        </div>
+        <button onclick="submitLeadForm()" class="btn-cta w-full justify-center text-base mt-2">
+          Send &amp; Connect via WhatsApp →
+        </button>
+      </div>
+      <p class="text-center text-xs mt-4" style="color:#aaa">By submitting this form you agree to our <a href="#" onclick="showTosView('privacy'); return false;" style="color:#3A5BC7">Privacy Policy</a>.</p>
+    </div>
+
+    <p class="text-center text-sm mt-6" style="color:#888">
+      Atau langsung chat:
+      <a href="https://wa.me/6285234829300" target="_blank" class="font-semibold" style="color:#3A5BC7">+62 852-3482-9300</a>
+    </p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ FINAL CTA ═══════════════════════ -->
+<section class="hero-bg py-20 md:py-28 relative overflow-hidden">
+  <div class="hero-grid"></div>
+  <div class="relative z-10 max-w-3xl mx-auto px-5 text-center">
+
+    <span class="badge hero-badge mb-6">Ready to Automate?</span>
+
+    <h2 class="font-serif text-3xl md:text-5xl text-white mb-5 mt-3" style="letter-spacing:-0.02em">
+      Stop Answering the Same<br class="hidden md:block"/> Questions. Let Eliot Handle It.
+    </h2>
+
+    <p class="text-lg mb-10" style="color:rgba(255,255,255,0.72)">
+      Join businesses that have automated their customer support with Eliot AI. One-time setup, runs 24/7 without extra CS staff.
+    </p>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="https://wa.me/6285234829300?text=Hi+Jason%2C+I'm+interested+in+using+Eliot+AI+for+my+business" target="_blank" class="btn-primary text-base">
+        Contact Us via WhatsApp
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+      <a href="#features" class="btn-outline text-base">Explore All Features</a>
+    </div>
+
+    <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-2 text-sm mt-10" style="color:rgba(255,255,255,0.5)">
+      <span>✓ One-time setup fee</span>
+      <span>✓ Flexible monthly maintenance</span>
+      <span>✓ 99% uptime SLA</span>
+      <span>✓ Dedicated support</span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer class="py-10">
+  <div class="max-w-5xl mx-auto px-5">
+
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <!-- Logo -->
+      <a href="#" class="flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="120" height="30" aria-label="Eliot Tech">
+          <defs>
+            <linearGradient id="bubbleGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#4A7CFF"/>
+              <stop offset="100%" style="stop-color:#6B9FFF"/>
+            </linearGradient>
+            <linearGradient id="dotGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#7da4f5"/>
+              <stop offset="100%" style="stop-color:#a0bfff"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="4" width="56" height="52" rx="12" fill="url(#bubbleGrad2)"/>
+          <polygon points="10,54 6,70 26,54" fill="#4A7CFF"/>
+          <rect x="16" y="18" width="26" height="4" rx="2" fill="white"/>
+          <rect x="16" y="28" width="20" height="4" rx="2" fill="white"/>
+          <rect x="16" y="38" width="26" height="4" rx="2" fill="white"/>
+          <rect x="16" y="18" width="4" height="24" rx="2" fill="white"/>
+          <circle cx="50" cy="10" r="7" fill="url(#dotGrad2)"/>
+          <circle cx="50" cy="10" r="3.5" fill="white"/>
+          <text x="76" y="42" font-family="'DM Sans', 'Segoe UI', Arial, sans-serif" font-size="34" font-weight="700" fill="white" letter-spacing="-1">Eliot</text>
+          <text x="78" y="60" font-family="'DM Sans', 'Segoe UI', Arial, sans-serif" font-size="13" font-weight="400" fill="#7da4f5" letter-spacing="5">TECH</text>
+          <rect x="74" y="46" width="160" height="1.5" rx="1" fill="rgba(255,255,255,0.15)"/>
+        </svg>
+      </a>
+
+      <!-- Footer links -->
+      <div class="flex items-center gap-6 text-sm flex-wrap justify-center md:justify-end" style="color:rgba(255,255,255,0.55)">
+        <a href="#" onclick="showTosView('terms'); return false;" class="hover:text-white transition">Terms of Service</a>
+        <a href="#" onclick="showTosView('privacy'); return false;" class="hover:text-white transition">Privacy Policy</a>
+        <a href="#features" class="hover:text-white transition">Features</a>
+        <a href="#pricing" class="hover:text-white transition">Pricing</a>
+        <a href="https://wa.me/6285234829300" target="_blank" class="hover:text-white transition flex items-center gap-1.5">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+
+    </div>
+
+    <div class="border-t mt-8 pt-8 text-center text-sm" style="border-color:rgba(255,255,255,0.1); color:rgba(255,255,255,0.4)">
+      Copyright &copy; 2026 Eliot Tech &middot; Prepared by Jason Eliot. All rights reserved.
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
+<script>
+  // ── Mobile Menu Toggle ──
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const hb1 = document.getElementById('hb1');
+  const hb2 = document.getElementById('hb2');
+  const hb3 = document.getElementById('hb3');
+  let menuOpen = false;
+
+  menuBtn.addEventListener('click', () => {
+    menuOpen = !menuOpen;
+    mobileMenu.classList.toggle('open', menuOpen);
+    // Animate hamburger
+    if (menuOpen) {
+      hb1.style.transform = 'rotate(45deg) translate(4px, 4px)';
+      hb2.style.opacity = '0';
+      hb3.style.transform = 'rotate(-45deg) translate(4px, -4px)';
+    } else {
+      hb1.style.transform = '';
+      hb2.style.opacity = '';
+      hb3.style.transform = '';
+    }
+  });
+
+  // Close mobile menu when a link is clicked
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+      hb1.style.transform = '';
+      hb2.style.opacity = '';
+      hb3.style.transform = '';
+    });
+  });
+
+  // ── Scroll Reveal ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── FAQ Accordion ──
+  function toggleFaq(btn) {
+    const body = btn.nextElementSibling;
+    const chevron = btn.querySelector('.faq-chevron');
+    const isOpen = chevron.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-chevron').forEach(c => c.classList.remove('open'));
+    document.querySelectorAll('.faq-body').forEach(b => b.style.maxHeight = '0');
+    // Open clicked if was closed
+    if (!isOpen) {
+      chevron.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  }
+
+  // ── ROI Calculator ──
+  function updateROI() {
+    const agents = parseInt(document.getElementById('roi-agents').value);
+    const salary = parseInt(document.getElementById('roi-salary').value); // in $k
+    const rep = parseInt(document.getElementById('roi-rep').value);
+
+    document.getElementById('roi-agents-val').textContent = agents;
+    document.getElementById('roi-salary-val').textContent = salary;
+    document.getElementById('roi-rep-val').textContent = rep;
+
+    const totalCost = agents * salary * 1000; // actual dollars
+    const savings = totalCost * (rep / 100);
+    const eliotCost = 400; // ~$400/mo
+    const roi = savings > 0 ? Math.round(savings / eliotCost) : 0;
+
+    document.getElementById('roi-current').textContent = '$' + totalCost.toLocaleString('en-US');
+    document.getElementById('roi-handle').textContent = rep;
+    document.getElementById('roi-save').textContent = '$' + savings.toLocaleString('en-US');
+    document.getElementById('roi-x').textContent = roi;
+
+    const msg = encodeURIComponent(`Hi Jason, I'm interested in Eliot AI. My business has ${agents} CS agent(s) costing $${totalCost.toLocaleString('en-US')}/mo. How much could we save?`);
+    document.getElementById('roi-wa-btn').href = `https://wa.me/6285234829300?text=${msg}`;
+  }
+
+  ['roi-agents','roi-salary','roi-rep'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateROI);
+  });
+  updateROI();
+
+  // ── Lead Form Submit ──
+  function submitLeadForm() {
+    const name = document.getElementById('lead-name').value.trim();
+    const biz = document.getElementById('lead-biz').value.trim();
+    const wa = document.getElementById('lead-wa').value.trim();
+    const platform = document.getElementById('lead-platform').value;
+
+    if (!name || !wa) {
+      alert('Full name and WhatsApp number are required.');
+      return;
+    }
+    const msg = encodeURIComponent(`Hi Jason!\n\nI'd like to request a demo for Eliot AI.\n\nName: ${name}\nBusiness: ${biz || '-'}\nWhatsApp: ${wa}\nPlatform: ${platform || '-'}\n\nLooking forward to hearing from you!`);
+    window.open(`https://wa.me/6285234829300?text=${msg}`, '_blank');
+  }
+
+  // ── TOS / Privacy View ──
+  function updateTosActiveLink(id) {
+    document.querySelectorAll('.tm-toc-item').forEach(function(l) { l.classList.remove('active'); });
+    var link = document.querySelector('.tm-toc-item[data-id="' + id + '"]');
+    if (link) link.classList.add('active');
+  }
+
+  function tmScrollTo(id) {
+    var el = document.getElementById(id);
+    var mc = document.getElementById('tos-modal-content');
+    if (el && mc) {
+      mc.scrollTo({ top: el.offsetTop - 20, behavior: 'smooth' });
+      updateTosActiveLink(id);
+    }
+  }
+
+  function showTosView(section) {
+    var tv = document.getElementById('tos-view');
+    if (!tv) return;
+    document.body.style.overflow = 'hidden';
+    tv.style.display = 'flex';
+    var mc = document.getElementById('tos-modal-content');
+    if (mc) {
+      mc.scrollTop = 0;
+      setTimeout(function() {
+        var target = document.getElementById(section === 'privacy' ? 'pp-top' : 'tos-top');
+        if (target) mc.scrollTo({ top: target.offsetTop - 20, behavior: 'smooth' });
+      }, 60);
+    }
+    updateTosActiveLink(section === 'privacy' ? 'pp-s01' : 'tos-s01');
+  }
+
+  function hideTosView() {
+    var tv = document.getElementById('tos-view');
+    if (tv) tv.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Bind scroll spy + WA bounce after full DOM is available
+  document.addEventListener('DOMContentLoaded', function() {
+    var mc = document.getElementById('tos-modal-content');
+    if (mc) {
+      mc.addEventListener('scroll', function() {
+        var sections = mc.querySelectorAll('[id^="tos-s"],[id^="pp-s"]');
+        var current = null;
+        sections.forEach(function(sec) {
+          if (sec.getBoundingClientRect().top <= 100) current = sec.id;
+        });
+        if (current) updateTosActiveLink(current);
+      });
+    }
+    var wf = document.getElementById('wa-float-btn');
+    if (wf) {
+      setTimeout(function() {
+        wf.classList.add('bouncing');
+        wf.addEventListener('animationend', function() { wf.classList.remove('bouncing'); }, { once: true });
+      }, 2000);
+    }
+  });
+
+
+</script>
+
+<!-- ── Floating WhatsApp Button ── -->
+<a id="wa-float-btn" href="https://wa.me/6285234829300" target="_blank" class="wa-float" aria-label="Chat via WhatsApp">
+  <span class="wa-float-tooltip">Chat via WhatsApp</span>
+  <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- ═══════════════════════ TOS VIEW ═══════════════════════ -->
+<div id="tos-view" style="display:none">
+  <div id="tos-topnav">
+    <button id="tos-close-btn" onclick="hideTosView()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back
+    </button>
+    <span id="tos-brand">ELIOT TECH</span>
+  </div>
+  <div id="tos-body">
+    <aside id="tos-toc">
+      <div class="tm-toc-label">Contents</div>
+      <div class="tm-toc-section">Terms of Service</div>
+      <a class="tm-toc-item" data-id="tos-s01" href="#" onclick="tmScrollTo('tos-s01');return false;">01 · Parties &amp; Definitions</a>
+      <a class="tm-toc-item" data-id="tos-s02" href="#" onclick="tmScrollTo('tos-s02');return false;">02 · Scope of Service</a>
+      <a class="tm-toc-item" data-id="tos-s03" href="#" onclick="tmScrollTo('tos-s03');return false;">03 · Client Obligations</a>
+      <a class="tm-toc-item" data-id="tos-s04" href="#" onclick="tmScrollTo('tos-s04');return false;">04 · Payment &amp; Subscription</a>
+      <a class="tm-toc-item" data-id="tos-s05" href="#" onclick="tmScrollTo('tos-s05');return false;">05 · Availability &amp; SLA</a>
+      <a class="tm-toc-item" data-id="tos-s06" href="#" onclick="tmScrollTo('tos-s06');return false;">06 · Intellectual Property</a>
+      <a class="tm-toc-item" data-id="tos-s07" href="#" onclick="tmScrollTo('tos-s07');return false;">07 · Liability</a>
+      <a class="tm-toc-item" data-id="tos-s08" href="#" onclick="tmScrollTo('tos-s08');return false;">08 · Termination</a>
+      <a class="tm-toc-item" data-id="tos-s09" href="#" onclick="tmScrollTo('tos-s09');return false;">09 · Governing Law</a>
+      <div class="tm-toc-section">Privacy Policy</div>
+      <a class="tm-toc-item" data-id="pp-s01" href="#" onclick="tmScrollTo('pp-s01');return false;">01 · Data We Collect</a>
+      <a class="tm-toc-item" data-id="pp-s02" href="#" onclick="tmScrollTo('pp-s02');return false;">02 · How We Use Data</a>
+      <a class="tm-toc-item" data-id="pp-s03" href="#" onclick="tmScrollTo('pp-s03');return false;">03 · Storage &amp; Security</a>
+      <a class="tm-toc-item" data-id="pp-s04" href="#" onclick="tmScrollTo('pp-s04');return false;">04 · Third-Party Services</a>
+      <a class="tm-toc-item" data-id="pp-s05" href="#" onclick="tmScrollTo('pp-s05');return false;">05 · End User Data</a>
+      <a class="tm-toc-item" data-id="pp-s06" href="#" onclick="tmScrollTo('pp-s06');return false;">06 · Data Rights</a>
+      <a class="tm-toc-item" data-id="pp-s07" href="#" onclick="tmScrollTo('pp-s07');return false;">07 · Policy Changes</a>
+      <a class="tm-toc-item" data-id="pp-s08" href="#" onclick="tmScrollTo('pp-s08');return false;">08 · Contact</a>
+    </aside>
+
+    <div id="tos-modal-content">
+      <!-- Cover -->
+      <div class="tm-cover">
+        <div class="tm-label">Legal Documentation</div>
+        <h1>ELIOT TECH</h1>
+        <div class="tm-sub">AI Customer Service System</div>
+        <div class="tm-meta"><strong>Effective:</strong> March 2026 &nbsp;·&nbsp; <strong>Version:</strong> 1.0 &nbsp;·&nbsp; <strong>Contact:</strong> jasoneliotsuryanata@gmail.com</div>
+      </div>
+
+      <!-- Terms of Service -->
+      <div id="tos-top" class="tm-doc-title">Terms of Service</div>
+      <div class="tm-last-updated">EFFECTIVE DATE: MARCH 2026 · VERSION 1.0</div>
+      <p>Please read these Terms of Service carefully before using the Eliot AI Customer Service system. By accessing or using the Service, the Client agrees to be bound by these Terms.</p>
+
+      <div id="tos-s01" class="tm-sh"><span class="n">01</span><span class="t">Parties &amp; Definitions</span></div>
+      <p>The following definitions apply throughout this Agreement:</p>
+      <div class="tm-def">
+        <div class="tm-def-item"><div class="tm-def-term">Eliot Tech</div><div class="tm-def-desc">The service provider — Jason Eliot and the Eliot Tech team — responsible for developing, deploying, and maintaining the Eliot AI Customer Service system.</div></div>
+        <div class="tm-def-item"><div class="tm-def-term">Client</div><div class="tm-def-desc">The individual or entity (e.g., online class owner, course creator, or business operator) that purchases a subscription to the Eliot service and deploys it for their audience.</div></div>
+        <div class="tm-def-item"><div class="tm-def-term">End User</div><div class="tm-def-desc">The members, students, or customers of the Client who interact with the Eliot-powered customer service system.</div></div>
+        <div class="tm-def-item"><div class="tm-def-term">Service</div><div class="tm-def-desc">The Eliot AI Customer Service system, including the RAG-powered chatbot engine, support ticket system, knowledge base management, and related infrastructure provided by Eliot Tech.</div></div>
+        <div class="tm-def-item"><div class="tm-def-term">Knowledge Base</div><div class="tm-def-desc">The collection of documents, PDFs, FAQs, and other content uploaded by the Client and indexed by the Eliot system to generate responses.</div></div>
+      </div>
+
+      <div id="tos-s02" class="tm-sh"><span class="n">02</span><span class="t">Scope of Service</span></div>
+      <p>Eliot Tech agrees to provide the Client with access to the Eliot AI Customer Service system as described below.</p>
+      <table class="tm-table">
+        <thead><tr><th>What Is Included</th><th>What Is NOT Included</th></tr></thead>
+        <tbody>
+          <tr><td>AI-powered chatbot (RAG engine)</td><td>Financial, investment, or trading advice</td></tr>
+          <tr><td>Automated support ticket system</td><td>Custom software development beyond agreed scope</td></tr>
+          <tr><td>Knowledge base indexing (PDF, images, tables)</td><td>Legal, medical, or professional advisory services</td></tr>
+          <tr><td>24/7 automated response availability</td><td>Guarantee of 100% response accuracy</td></tr>
+          <tr><td>Self-learning from resolved tickets</td><td>Liability for Client's business outcomes</td></tr>
+          <tr><td>Knowledge updates within 60 seconds</td><td>Physical hardware or on-premise deployment</td></tr>
+        </tbody>
+      </table>
+
+      <div id="tos-s03" class="tm-sh"><span class="n">03</span><span class="t">Client Obligations</span></div>
+      <p>By subscribing to the Service, the Client agrees to the following obligations:</p>
+      <ul class="tm-list">
+        <li><strong>Accurate Content:</strong> The Client is solely responsible for the accuracy, legality, and completeness of all content uploaded to the Knowledge Base. Eliot Tech is not liable for incorrect responses resulting from inaccurate or misleading Client-provided content.</li>
+        <li><strong>End User Responsibility:</strong> The Client is responsible for informing their End Users that they are interacting with an AI-powered system and for obtaining any consent required under applicable law.</li>
+        <li><strong>Lawful Use:</strong> The Client agrees not to use the Service for any unlawful purpose, including but not limited to fraud, harassment, dissemination of harmful content, or any activity violating applicable law or international regulations.</li>
+        <li><strong>Account Security:</strong> The Client is responsible for maintaining the confidentiality of their access credentials and for all activity that occurs under their account.</li>
+        <li><strong>No Resale:</strong> The Client may not resell, sublicense, or redistribute access to the Eliot system to third parties without prior written consent from Eliot Tech.</li>
+      </ul>
+
+      <div id="tos-s04" class="tm-sh"><span class="n">04</span><span class="t">Payment &amp; Subscription</span></div>
+      <p>The Service is provided on a Setup Fee + monthly Maintenance model. The following payment terms apply:</p>
+      <ul class="tm-list">
+        <li><strong>Setup Fee:</strong> A one-time Setup Fee is charged at the start of the engagement, covering system configuration, platform integration, and initial knowledge base training.</li>
+        <li><strong>Maintenance Fee:</strong> A monthly Maintenance Fee covers server hosting, knowledge base updates, performance monitoring, bug fixes, and technical support. Fees are billed monthly in advance.</li>
+        <li><strong>Auto-Renewal:</strong> Monthly maintenance renews automatically unless the Client provides written cancellation notice at least 7 days before the next billing date.</li>
+        <li><strong>Refund Policy:</strong> The Setup Fee is non-refundable once system configuration has begun. Monthly fees are non-refundable once the billing period has started. If the Client cancels mid-month, service remains active until the end of the current period.</li>
+        <li><strong>Price Changes:</strong> Eliot Tech reserves the right to modify pricing with 30 days' written notice to the Client.</li>
+      </ul>
+      <div class="tm-hi">All pricing is agreed individually between Eliot Tech and the Client during onboarding. Contact Eliot Tech directly for current service tier pricing.</div>
+
+      <div id="tos-s05" class="tm-sh"><span class="n">05</span><span class="t">Service Availability &amp; SLA</span></div>
+      <ul class="tm-list">
+        <li><strong>Target Uptime:</strong> Eliot Tech targets 99% monthly uptime for the core AI response system. Scheduled maintenance windows will be communicated at least 24 hours in advance.</li>
+        <li><strong>Interruptions:</strong> Eliot Tech is not liable for service interruptions caused by third-party providers (including OpenAI, Pinecone, Telegram, or Google services), internet outages, or force majeure events.</li>
+        <li><strong>Force Majeure:</strong> Neither party shall be held liable for delays or failures in performance resulting from causes beyond reasonable control, including natural disasters, government actions, or infrastructure failures.</li>
+      </ul>
+
+      <div id="tos-s06" class="tm-sh"><span class="n">06</span><span class="t">Intellectual Property</span></div>
+      <ul class="tm-list">
+        <li><strong>Eliot Tech IP:</strong> The Eliot system — including its AI engine, workflow architecture, code, models, and proprietary processes — is and remains the exclusive intellectual property of Eliot Tech. The Client receives a non-exclusive, non-transferable right to use the Service during the active subscription period only.</li>
+        <li><strong>Client Content:</strong> The Client retains ownership of all documents, FAQs, and content uploaded to the Knowledge Base. Eliot Tech uses this content solely to deliver the Service.</li>
+        <li><strong>No Reverse Engineering:</strong> The Client agrees not to reverse engineer, decompile, copy, or attempt to replicate any part of the Eliot system or its underlying technology.</li>
+      </ul>
+
+      <div id="tos-s07" class="tm-sh"><span class="n">07</span><span class="t">Limitation of Liability</span></div>
+      <div class="tm-hi">Eliot Tech shall not be liable for any indirect, incidental, consequential, or special damages, including loss of revenue, loss of business, or loss of data arising from the use or inability to use the Service.</div>
+      <ul class="tm-list">
+        <li>Eliot Tech's total cumulative liability to the Client for any claims arising under or related to this Agreement shall not exceed the amount of one (1) month's maintenance fee paid by the Client.</li>
+        <li>The Client acknowledges that AI-generated responses may not be 100% accurate and agrees that Eliot Tech is not liable for business decisions made based on AI-generated content.</li>
+      </ul>
+
+      <div id="tos-s08" class="tm-sh"><span class="n">08</span><span class="t">Termination</span></div>
+      <ul class="tm-list">
+        <li><strong>By Client:</strong> The Client may terminate this Agreement at any time by providing 7 days' written notice to Eliot Tech before the next maintenance period. The subscription remains active until the end of the current billing period.</li>
+        <li><strong>By Eliot Tech:</strong> Eliot Tech may terminate this Agreement immediately if the Client breaches any material term of these Terms, fails to make payment when due, or uses the Service for unlawful purposes.</li>
+        <li><strong>Data Upon Termination:</strong> Following termination, Eliot Tech will retain the Client's data for a maximum of 30 days, after which all data — including Knowledge Base content, chat logs, and ticket history — will be permanently deleted.</li>
+      </ul>
+
+      <div id="tos-s09" class="tm-sh"><span class="n">09</span><span class="t">Governing Law &amp; Disputes</span></div>
+      <ul class="tm-list">
+        <li>These Terms of Service shall be governed by and construed in accordance with the laws of the Republic of Indonesia.</li>
+        <li>Any disputes arising from or in connection with this Agreement shall first be attempted to be resolved through good-faith negotiation between the parties.</li>
+        <li>If negotiation fails, disputes shall be submitted to the competent court in the jurisdiction of Eliot Tech's principal place of business.</li>
+      </ul>
+
+      <hr class="tm-break" id="pp-top">
+
+      <!-- Privacy Policy -->
+      <div class="tm-doc-title">Privacy Policy</div>
+      <div class="tm-last-updated">EFFECTIVE DATE: MARCH 2026 · VERSION 1.0</div>
+      <p>Eliot Tech is committed to protecting the privacy of its Clients and the End Users they serve. This Privacy Policy explains what data is collected, how it is used, and how it is protected within the Eliot AI Customer Service system.</p>
+
+      <div id="pp-s01" class="tm-sh"><span class="n">01</span><span class="t">Data We Collect</span></div>
+      <table class="tm-table">
+        <thead><tr><th>Data Type</th><th>Source</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td>Client Account Data</td><td>Client (directly)</td><td>Name, email address, business name, subscription plan</td></tr>
+          <tr><td>Knowledge Base Content</td><td>Client (uploaded)</td><td>PDFs, FAQ documents, policy files, product manuals</td></tr>
+          <tr><td>End User Chat Logs</td><td>End Users via Client's platform</td><td>Questions asked, AI responses, ticket creation events</td></tr>
+          <tr><td>System Usage Data</td><td>Automated (system)</td><td>API call logs, response times, error logs (anonymized)</td></tr>
+        </tbody>
+      </table>
+      <div class="tm-hi">We do NOT collect: government-issued photo ID numbers, financial account details, passwords, or any sensitive personal data beyond what is necessary to deliver the Service.</div>
+
+      <div id="pp-s02" class="tm-sh"><span class="n">02</span><span class="t">How We Use Data</span></div>
+      <ul class="tm-list">
+        <li><strong>Service Delivery:</strong> Chat logs and Knowledge Base content are used solely to generate accurate AI responses for End Users and to power the support ticket system.</li>
+        <li><strong>System Improvement:</strong> Anonymized usage data (e.g., question categories, resolution rates) may be used to improve the Eliot engine. No personally identifiable information is used for this purpose.</li>
+        <li><strong>Self-Learning:</strong> When a human agent resolves a ticket, the answer may be added back into the Knowledge Base to improve future response accuracy. This process is controlled by the Client.</li>
+        <li><strong>No Sale of Data:</strong> Eliot Tech does not sell, rent, or trade any Client or End User data to third parties under any circumstances.</li>
+      </ul>
+
+      <div id="pp-s03" class="tm-sh"><span class="n">03</span><span class="t">Data Storage &amp; Security</span></div>
+      <table class="tm-table">
+        <thead><tr><th>Component</th><th>Storage Location</th><th>Security Measure</th></tr></thead>
+        <tbody>
+          <tr><td>AI Processing</td><td>OpenAI API (cloud)</td><td>HTTPS encryption, no data retention by OpenAI beyond session</td></tr>
+          <tr><td>Vector Knowledge Base</td><td>Pinecone (cloud)</td><td>Namespace isolation per Client, HTTPS encryption</td></tr>
+          <tr><td>Workflow Infrastructure</td><td>Eliot Tech VPS (secured)</td><td>Firewall, access controls, HTTPS-only endpoints</td></tr>
+          <tr><td>Document Storage</td><td>Google Drive (Client-managed)</td><td>Client controls access permissions</td></tr>
+          <tr><td>Chat Delivery</td><td>Telegram / Web Chat</td><td>Platform-standard encryption in transit</td></tr>
+        </tbody>
+      </table>
+      <ul class="tm-list">
+        <li><strong>Encryption:</strong> All data transmitted between End Users, Eliot's infrastructure, and third-party services is encrypted in transit using HTTPS/TLS.</li>
+        <li><strong>Data Retention:</strong> Client data is retained for the duration of the active subscription plus 30 days. After termination, all data is permanently deleted.</li>
+        <li><strong>Breach Notification:</strong> In the event of a data breach affecting Client or End User data, Eliot Tech will notify the affected Client within 72 hours of becoming aware of the incident.</li>
+      </ul>
+
+      <div id="pp-s04" class="tm-sh"><span class="n">04</span><span class="t">Third-Party Services</span></div>
+      <p>The Eliot system relies on the following third-party services to operate. Each provider maintains its own privacy and security policies:</p>
+      <table class="tm-table">
+        <thead><tr><th>Service</th><th>Purpose</th><th>Data Shared</th></tr></thead>
+        <tbody>
+          <tr><td>OpenAI</td><td>AI language model (LLM) processing</td><td>End User queries (anonymized, not linked to identity)</td></tr>
+          <tr><td>Pinecone</td><td>Vector search for Knowledge Base</td><td>Indexed document embeddings (no personal data)</td></tr>
+          <tr><td>Telegram</td><td>Chat delivery platform (optional)</td><td>Message content as per Telegram's own policy</td></tr>
+          <tr><td>Google Drive</td><td>Knowledge Base document upload</td><td>Client-uploaded documents (Client controls access)</td></tr>
+        </tbody>
+      </table>
+
+      <div id="pp-s05" class="tm-sh"><span class="n">05</span><span class="t">Client Responsibilities for End User Data</span></div>
+      <ul class="tm-list">
+        <li><strong>Disclosure Obligation:</strong> The Client must clearly inform their End Users that they are interacting with an AI-powered customer service system, not a human agent.</li>
+        <li><strong>Consent:</strong> The Client is responsible for obtaining any necessary consent from End Users for data processing as required by applicable data protection laws.</li>
+        <li><strong>No Sensitive Data:</strong> The Client must not configure the system to collect or process sensitive personal data from End Users (such as health information, financial account data, or government-issued photo ID numbers) without explicit written agreement with Eliot Tech.</li>
+        <li><strong>Client as Data Controller:</strong> With respect to End User data, the Client acts as the data controller and Eliot Tech acts as the data processor. The Client bears primary responsibility for lawful processing.</li>
+      </ul>
+
+      <div id="pp-s06" class="tm-sh"><span class="n">06</span><span class="t">Data Rights</span></div>
+      <p>Clients may exercise the following rights regarding their data at any time:</p>
+      <div class="tm-def">
+        <div class="tm-def-item"><div class="tm-def-term">Access</div><div class="tm-def-desc">Request a summary of what data Eliot Tech holds about the Client's account and system usage.</div></div>
+        <div class="tm-def-item"><div class="tm-def-term">Export</div><div class="tm-def-desc">Request an export of Knowledge Base content and ticket history in a standard format.</div></div>
+        <div class="tm-def-item"><div class="tm-def-term">Deletion</div><div class="tm-def-desc">Request deletion of specific data or all data associated with the Client's account. Requests are processed within 7 business days.</div></div>
+        <div class="tm-def-item"><div class="tm-def-term">Correction</div><div class="tm-def-desc">Request correction of inaccurate account data held by Eliot Tech.</div></div>
+      </div>
+      <p>To exercise any of the above rights, please contact Eliot Tech directly using the details in Section 08.</p>
+
+      <div id="pp-s07" class="tm-sh"><span class="n">07</span><span class="t">Changes to This Policy</span></div>
+      <ul class="tm-list">
+        <li>Eliot Tech reserves the right to update this Privacy Policy at any time. Clients will be notified of material changes at least <strong>30 days</strong> before the changes take effect.</li>
+        <li>Continued use of the Service after the effective date of any changes constitutes acceptance of the updated policy.</li>
+        <li>The current version of this Privacy Policy is always available upon request from Eliot Tech.</li>
+      </ul>
+
+      <div id="pp-s08" class="tm-sh"><span class="n">08</span><span class="t">Contact</span></div>
+      <p>For any questions, requests, or concerns regarding these Terms of Service or Privacy Policy, please contact:</p>
+      <div class="tm-def">
+        <div class="tm-def-item"><div class="tm-def-term">Name</div><div class="tm-def-desc">Jason Eliot</div></div>
+        <div class="tm-def-item"><div class="tm-def-term">Company</div><div class="tm-def-desc">Eliot Tech</div></div>
+        <div class="tm-def-item"><div class="tm-def-term">Email</div><div class="tm-def-desc">jasoneliotsuryanata@gmail.com</div></div>
+        <div class="tm-def-item"><div class="tm-def-term">Response Time</div><div class="tm-def-desc">Within 3 business days for general inquiries; within 7 business days for data rights requests.</div></div>
+      </div>
+      <div class="tm-hi" style="margin-top:24px">By subscribing to and using the Eliot AI Customer Service system, the Client acknowledges that they have read, understood, and agreed to both the Terms of Service and Privacy Policy set out in this document.</div>
+      <div class="tm-footer">ELIOT TECH &nbsp;·&nbsp; JASON ELIOT &nbsp;·&nbsp; MARCH 2026<br>Terms of Service &amp; Privacy Policy — Version 1.0</div>
+
+    </div><!-- #tos-modal-content -->
+  </div><!-- #tos-body -->
+</div><!-- #tos-view -->
+
+</body>
+</html>
